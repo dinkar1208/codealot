@@ -43,6 +43,7 @@ class knight
 				k[i].stam	=0;
 				k[i].xp		=0;
 				k[i].old_xp	=0;
+				k[i].old_stam=0;
 			}
 		}
 		//PLACEMENT FUNCTION//
@@ -67,6 +68,10 @@ void knight::calc_end_of_day(int knight_id)
 	location loc;
 	knights_with_complete_day++;
 	cout<<knights_with_complete_day;
+	
+	bool no_xp_day;								//no stamina training detector
+	no_xp_day = false;
+	
 	for(int i=0; i<24; i++)
 	{
 		loc = k[knight_id].log[i];
@@ -74,9 +79,14 @@ void knight::calc_end_of_day(int knight_id)
 		if(loc == TAVERN) k[knight_id].stam++;
 		else if((loc == TRAINING)){
 			k[knight_id].stam--;
+			if(k[knight_id].stam < 0)  			// strict check to make +XP=0 incase stamina falls below 0
+			{									// which triggers when stam = 0 and stam-- makes it < 0
+				no_xp_day = true;
+			}
 			if((k[knight_id].stam >= 0))	k[knight_id].xp++;
 		}
 	}
+	if(no_xp_day) k[knight_id].xp = k[knight_id].old_xp;	//stamina keeps draining but +XP=0 in the end
 	k[knight_id].hours = 0;
 	if(knights_with_complete_day == NUM_KNIGHTS) calc_bonus();
 }
@@ -123,7 +133,7 @@ void knight::calc_bonus()
 			break;			
 	}
 	*/
-	
+	loop k[i].old_stam	= k[i].stam;
 	loop k[i].old_xp	= k[i].xp;
 	knights_with_complete_day=0;
 }
