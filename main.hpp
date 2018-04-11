@@ -9,7 +9,7 @@
 
 //****CONSTANTS****//
 #define NUM_KNIGHTS 12
-#define loop for(int i=0; i<NUM_KNIGHTS; i++)
+#define loop for(int i=0; i<=NUM_KNIGHTS; i++)
 
 //****ENUMERATED DATA TYPES****//
 enum location {	TAVERN,

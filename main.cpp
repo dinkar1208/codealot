@@ -6,8 +6,9 @@ using namespace std;
 //****CLASSES****//
 class knight
 {
-	Typedef_knight k[NUM_KNIGHTS];
+	Typedef_knight k[NUM_KNIGHTS+1];			//the +1 denotes the King Arthur 
 	int knights_with_complete_day;
+	void initializeKnight(Typedef_knight *k);	//initialization function for a knight
 	void calc_end_of_day(int knight_id);		//called after every 24 hours to calculate result
 	void calc_bonus(); 							//called after result for all knights is calculated
 	
@@ -23,10 +24,6 @@ class knight
 
 };
 
-class arthur:public knight
-{
-	Typedef_knight arthur;
-};
 
 /**
 	Default constructor for class knight
@@ -36,14 +33,23 @@ class arthur:public knight
 knight::knight()
 {
 		knights_with_complete_day=0;
-			loop
-			{
-				k[i].hours 	=0;
-				k[i].stam	=0;
-				k[i].xp		=0;
-				k[i].old_xp	=0;
-				k[i].old_stam=0;
-			}
+		loop
+		{
+				initializeKnight(&k[i]);
+		}
+}
+
+/**
+	Initializing the knight parameters to zero
+	@param Pointer to Typedef_knight data
+	@return None
+*/
+void knight::initializeKnight(Typedef_knight *k) {
+	k->hours 	=0;
+	k->stam		=0;
+	k->xp		=0;
+	k->old_xp	=0;
+	k->old_stam=0;
 }
 
 /**
@@ -157,9 +163,18 @@ void knight::calc_bonus()
 */
 void knight::print_result(int knight_id)
 {
-	cout<<"\nKnight "<<knight_id<<endl;
-	cout<<"Stamina : "<<k[knight_id].stam<<endl;
-	cout<<"XP      : "<<k[knight_id].xp<<endl;
+	if(knight_id < NUM_KNIGHTS) 
+	{
+		cout<<"\nKnight "<<knight_id<<endl;
+		cout<<"Stamina : "<<k[knight_id].stam<<endl;
+		cout<<"XP      : "<<k[knight_id].xp<<endl;
+	}
+	else
+	{
+		cout<<"\nKing Arthur "<<endl;
+		cout<<"Stamina : "<<k[knight_id].stam<<endl;
+		cout<<"XP      : "<<k[knight_id].xp<<endl;
+	}
 }
 
 /**
@@ -170,8 +185,9 @@ void knight::print_result(int knight_id)
 void knight::print_result()
 {
 	loop print_result(i);
+	
 	int sum=0;
-	loop sum+= k[i].xp;
+	for(int i=0; i<NUM_KNIGHTS; i++) sum+= k[i].xp;						//total of all knights excluding Arthur
 	cout << "\nTotal XP:" << sum;
 }
 
@@ -199,10 +215,7 @@ void knight::random_placement(int no_of_days)
 				case 2:
 					fix_pos(i,ROUND_TABLE);
 					break;
-			}
-			
-			if(rand()%2) 	fix_pos(i,TAVERN);
-			else 			fix_pos(i,TRAINING);			
+			}			
 		}
 	}
 	
