@@ -1,32 +1,9 @@
-//INCLUDES//
-#include<iostream>
-#include<cstring>
-#include<ctime>
-#include<cstdlib>
+//****Includes****//
+#include "main.hpp"
 
 using namespace std;
 
-//CONSTANTS//
-#define NUM_KNIGHTS 12
-#define loop for(int i=0; i<NUM_KNIGHTS; i++)
-
-//ENUM DATA TYPES//
-enum location {	TAVERN,
-				TRAINING,
-				ROUND_TABLE};
-
-//STRUCTS//
-typedef struct 
-{
-	location log[24]; //used like a stack
-	int hours;
-	int stam;
-	int xp;
-	int old_stam;
-	int old_xp;
-}Typedef_knight;
-
-//CLASSES//
+//****CLASSES****//
 class knight
 {
 	Typedef_knight k[NUM_KNIGHTS];
@@ -35,18 +12,7 @@ class knight
 	void calc_bonus(); 							//called after result for all knights is calculated
 	
 	public:
-		knight()
-		{
-			knights_with_complete_day=0;
-			loop
-			{
-				k[i].hours 	=0;
-				k[i].stam	=0;
-				k[i].xp		=0;
-				k[i].old_xp	=0;
-				k[i].old_stam=0;
-			}
-		}
+		knight();
 		//PLACEMENT FUNCTION//
 		void fix_pos(int knight_id, location loc);	//fix position of a knight
 		//PRINT FUNCTIONS//
@@ -57,6 +23,35 @@ class knight
 
 };
 
+class arthur:public knight
+{
+	Typedef_knight arthur;
+};
+
+/**
+	Default constructor for class knight
+	@param None
+	@return None
+*/
+knight::knight()
+{
+		knights_with_complete_day=0;
+			loop
+			{
+				k[i].hours 	=0;
+				k[i].stam	=0;
+				k[i].xp		=0;
+				k[i].old_xp	=0;
+				k[i].old_stam=0;
+			}
+}
+
+/**
+	Alots the knight i with definied location for the hour
+	@param id number od the knight
+	@param location of placement for the particular knight
+	@return None
+*/
 void knight::fix_pos(int knight_id, location loc)
 {
 	k[knight_id].log[ (k[knight_id].hours) ] = loc;
@@ -64,6 +59,11 @@ void knight::fix_pos(int knight_id, location loc)
 	if(k[knight_id].hours == 24) calc_end_of_day(knight_id);
 }
 
+/**
+	Called internally to calculate XP and STAMINA for a knight
+	@param id number of the knight
+	@return None
+*/
 void knight::calc_end_of_day(int knight_id)
 {
 	location loc;
@@ -96,6 +96,11 @@ void knight::calc_end_of_day(int knight_id)
 	if(knights_with_complete_day == NUM_KNIGHTS) calc_bonus();
 }
 
+/**
+	Calculates bonus for all the knights combined at the end of the day
+	@param None
+	@return None
+*/
 void knight::calc_bonus()
 {
 	//		New bonus system definition
@@ -143,6 +148,13 @@ void knight::calc_bonus()
 	knights_with_complete_day=0;
 }
 
+/**
+	Print result for a particular knight
+	@param id number of the knight
+	@return None
+	Example:
+		print_result(2) will print XP and Stamina for knight 2
+*/
 void knight::print_result(int knight_id)
 {
 	cout<<"\nKnight "<<knight_id<<endl;
@@ -150,12 +162,24 @@ void knight::print_result(int knight_id)
 	cout<<"XP      : "<<k[knight_id].xp<<endl;
 }
 
+/**
+	Print combined result for all the knights
+	@param None
+	@return None
+*/
 void knight::print_result()
 {
 	loop print_result(i);
+	int sum=0;
+	loop sum+= k[i].xp;
+	cout << "\nTotal XP:" << sum;
 }
 
-//HELPER FUNCTIONS//
+/**
+	Randomly sets the location of the knights 
+	@param number of days to simulate
+	@return None
+*/
 void knight::random_placement(int no_of_days)
 {
 	int hours = no_of_days * 24;
@@ -184,7 +208,7 @@ void knight::random_placement(int no_of_days)
 	
 }
 
-//DRIVER CODE//
+//****DRIVER CODE****//
 int main(void)
 {
 	knight k;
