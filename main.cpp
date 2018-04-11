@@ -170,7 +170,7 @@ void knight::random_placement(int no_of_days)
 int main(void)
 {
 	knight k;
-	k.random_placement(1);
+	k.random_placement(1); //<<-- update number of days here 
 	k.print_result();
 	return 0;
 }
