@@ -12,7 +12,8 @@ using namespace std;
 
 //ENUM DATA TYPES//
 enum location {	TAVERN,
-				TRAINING};
+				TRAINING,
+				ROUND_TABLE};
 
 //STRUCTS//
 typedef struct 
@@ -66,6 +67,8 @@ void knight::fix_pos(int knight_id, location loc)
 void knight::calc_end_of_day(int knight_id)
 {
 	location loc;
+	int round_table_counter;					//counter for round table visits
+	round_table_counter = 0;
 	knights_with_complete_day++;
 	cout<<knights_with_complete_day;
 	
@@ -75,7 +78,7 @@ void knight::calc_end_of_day(int knight_id)
 	for(int i=0; i<24; i++)
 	{
 		loc = k[knight_id].log[i];
-		
+		if(loc == ROUND_TABLE) round_table_counter++;
 		if(loc == TAVERN) k[knight_id].stam++;
 		else if((loc == TRAINING)){
 			k[knight_id].stam--;
@@ -86,6 +89,8 @@ void knight::calc_end_of_day(int knight_id)
 			if((k[knight_id].stam >= 0))	k[knight_id].xp++;
 		}
 	}
+	if(round_table_counter < 3) no_xp_day = true;			//check for round table visits
+		
 	if(no_xp_day) k[knight_id].xp = k[knight_id].old_xp;	//stamina keeps draining but +XP=0 in the end
 	k[knight_id].hours = 0;
 	if(knights_with_complete_day == NUM_KNIGHTS) calc_bonus();
@@ -159,6 +164,19 @@ void knight::random_placement(int no_of_days)
 	{
 		loop
 		{
+			switch(rand()%3)
+			{
+				case 0:
+					fix_pos(i,TAVERN);
+					break;
+				case 1:
+					fix_pos(i,TRAINING);
+					break;
+				case 2:
+					fix_pos(i,ROUND_TABLE);
+					break;
+			}
+			
 			if(rand()%2) 	fix_pos(i,TAVERN);
 			else 			fix_pos(i,TRAINING);			
 		}
