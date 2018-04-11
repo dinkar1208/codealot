@@ -74,7 +74,7 @@ void knight::calc_end_of_day(int knight_id)
 		if(loc == TAVERN) k[knight_id].stam++;
 		else if((loc == TRAINING)){
 			k[knight_id].stam--;
-			if((k[knight_id].stam < 0))	k[knight_id].xp++;
+			if((k[knight_id].stam >= 0))	k[knight_id].xp++;
 		}
 	}
 	k[knight_id].hours = 0;
