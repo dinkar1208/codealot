@@ -83,6 +83,31 @@ void knight::calc_end_of_day(int knight_id)
 
 void knight::calc_bonus()
 {
+	//		New bonus system definition
+	//+Calculate the min and max XP earned by all the knights
+	//+Find the median and reward all knights above median with +5XP
+	//+Find the upper quartile and reward all knights above median with +10XP
+	int min=INT_MAX, max=INT_MIN;
+	loop
+	{
+		if((k[i].xp - k[i].old_xp) > max) max = (k[i].xp - k[i].old_xp);
+		if((k[i].xp - k[i].old_xp) < min) min = (k[i].xp - k[i].old_xp);
+	}
+	int median 	= (int)(max-min)/2    + min;
+	int quar	= (int)(max-median)/2 + median;
+	loop
+	{
+		if((k[i].xp - k[i].old_xp) > median)
+		{
+			if((k[i].xp - k[i].old_xp) > quar)
+			{
+				k[i].xp+=5;
+			}
+			k[i].xp+=5;
+		}	
+	}	
+	
+	/*				ORIGINAL BONUS SYSTEM
 	int knights_with_greater_than_three_xp = 0;
 	loop if((k[i].xp - k[i].old_xp) >=3) knights_with_greater_than_three_xp ++;
 	switch(knights_with_greater_than_three_xp)
@@ -97,6 +122,7 @@ void knight::calc_bonus()
 			loop if((k[i].xp - k[i].old_xp) >=3) k[i].xp+=20;
 			break;			
 	}
+	*/
 	
 	loop k[i].old_xp	= k[i].xp;
 	knights_with_complete_day=0;
