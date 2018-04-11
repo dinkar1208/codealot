@@ -7,7 +7,7 @@
 using namespace std;
 
 //CONSTANTS//
-#define NUM_KNIGHTS 6
+#define NUM_KNIGHTS 12
 #define loop for(int i=0; i<NUM_KNIGHTS; i++)
 
 //ENUM DATA TYPES//
