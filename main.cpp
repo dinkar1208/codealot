@@ -3,30 +3,10 @@
 
 using namespace std;
 
-//****CLASSES****//
-class knight
-{
-	Typedef_knight k[NUM_KNIGHTS+1];			//the +1 denotes the King Arthur 
-	int knights_with_complete_day;
-	void initializeKnight(Typedef_knight *k);	//initialization function for a knight
-	void calc_end_of_day(int knight_id);		//called after every 24 hours to calculate result
-	void calc_bonus(); 							//called after result for all knights is calculated
-	
-	public:
-		knight();
-		//PLACEMENT FUNCTION//
-		void fix_pos(int knight_id, location loc);	//fix position of a knight
-		//PRINT FUNCTIONS//
-		void print_result(int knight_id);			
-		void print_result();
-		//HELPER FUNCTION//
-		void random_placement(int no_of_days);
-
-};
-
+//****Functions Definitions****//
 
 /**
-	Default constructor for class knight
+	Default constructor for class knight to initialize variables to 0
 	@param None
 	@return None
 */
@@ -44,7 +24,8 @@ knight::knight()
 	@param Pointer to Typedef_knight data
 	@return None
 */
-void knight::initializeKnight(Typedef_knight *k) {
+void knight::initializeKnight(Typedef_knight *k) 
+{
 	k->hours 	=0;
 	k->stam		=0;
 	k->xp		=0;
@@ -54,9 +35,12 @@ void knight::initializeKnight(Typedef_knight *k) {
 
 /**
 	Alots the knight i with definied location for the hour
+	@Note Called by the random_placement function or explicitly
 	@param id number od the knight
 	@param location of placement for the particular knight
 	@return None
+	@Example
+		knight::fix_pos(1, ROUND_TABLE) fixes the location of knight 1
 */
 void knight::fix_pos(int knight_id, location loc)
 {
@@ -76,7 +60,7 @@ void knight::calc_end_of_day(int knight_id)
 	int round_table_counter;					//counter for round table visits
 	round_table_counter = 0;
 	knights_with_complete_day++;
-	cout<<knights_with_complete_day;
+	//cout<<knights_with_complete_day;			//for debugging
 	
 	bool no_xp_day;								//no stamina training detector
 	no_xp_day = false;
@@ -113,6 +97,7 @@ void knight::calc_bonus()
 	//+Calculate the min and max XP earned by all the knights
 	//+Find the median and reward all knights above median with +5XP
 	//+Find the upper quartile and reward all knights above median with +10XP
+	//
 	int min=INT_MAX, max=INT_MIN;
 	loop
 	{
@@ -187,7 +172,7 @@ void knight::print_result()
 	loop print_result(i);
 	
 	int sum=0;
-	for(int i=0; i<NUM_KNIGHTS; i++) sum+= k[i].xp;						//total of all knights excluding Arthur
+	for(int i=0; i<NUM_KNIGHTS; i++) sum+= k[i].xp;				//total of all knights excluding Arthur
 	cout << "\nTotal XP:" << sum;
 }
 
@@ -217,15 +202,14 @@ void knight::random_placement(int no_of_days)
 					break;
 			}			
 		}
-	}
-	
+	}	
 }
 
 //****DRIVER CODE****//
 int main(void)
 {
 	knight k;
-	k.random_placement(1); //<<-- update number of days here 
+	k.random_placement(100); //<<-- update number of days here 
 	k.print_result();
 	return 0;
 }
