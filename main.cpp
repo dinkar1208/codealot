@@ -50,7 +50,7 @@ void knight::fix_pos(int knight_id, location loc)
 }
 
 /**
-	Called internally to calculate XP and STAMINA for a knight
+	@brief Called internally to calculate XP and STAMINA for a knight
 	@param id number of the knight
 	@return None
 */
@@ -87,7 +87,7 @@ void knight::calc_end_of_day(int knight_id)
 }
 
 /**
-	Calculates bonus for all the knights combined at the end of the day
+	@brief Calculates bonus for all the knights combined at the end of the day
 	@param None
 	@return None
 */
@@ -140,7 +140,7 @@ void knight::calc_bonus()
 }
 
 /**
-	Print result for a particular knight
+	@brief Print result for a particular knight
 	@param id number of the knight
 	@return None
 	Example:
@@ -163,7 +163,7 @@ void knight::print_result(int knight_id)
 }
 
 /**
-	Print combined result for all the knights
+	@brief Print combined result for all the knights
 	@param None
 	@return None
 */
@@ -177,7 +177,7 @@ void knight::print_result()
 }
 
 /**
-	Randomly sets the location of the knights 
+	@brief Randomly sets the location of the knights 
 	@param number of days to simulate
 	@return None
 */
